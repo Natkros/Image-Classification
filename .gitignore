@@ -1,0 +1,27 @@
+# Data & model artifacts
+data/*
+!data/.gitkeep
+outputs/*
+!outputs/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Secrets
+kaggle.json
+.env
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
