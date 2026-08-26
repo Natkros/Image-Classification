@@ -1,4 +1,4 @@
-# Intel Image Classification
+# Image Classification
 
 Scene classification in PyTorch: sorts natural photographs into six categories —
 **buildings, forest, glacier, mountain, sea, street** — by fine-tuning an
@@ -35,18 +35,18 @@ predictor, a browser demo, and a narrated notebook that walks the whole thing en
 ## Quick start
 
 ```bash
-git clone <your-repo-url> && cd intel-image-classifier
+git clone <https://github.com/Natkros/Image-Classification.git> && cd intel-image-classifier
 python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-python scripts/download_data.py      # needs a Kaggle API token
-python scripts/train.py              # trains, evaluates, writes figures to outputs/
+python scripts/download_data.py      
+python scripts/train.py            
 python app.py                        # browser demo at http://localhost:7860
 ```
 
 **No Kaggle token yet?** Verify the whole pipeline on synthetic data in about a minute:
 
-```bash
+```cmd
 make smoke
 ```
 
@@ -60,7 +60,7 @@ time on a 350 MB download.
 
 **Requirements:** Python 3.9+, and roughly 2 GB of disk for the dataset.
 
-```bash
+```cmd
 pip install -r requirements.txt
 ```
 
@@ -82,7 +82,7 @@ CUDA-only and is skipped automatically elsewhere.
 
 **Check what you got:**
 
-```bash
+```cmd
 python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
 ```
 
@@ -96,12 +96,12 @@ python -c "import torch; print(torch.__version__, torch.cuda.is_available())"
    `kaggle.json`.
 2. Move it to `~/.kaggle/kaggle.json` (`%USERPROFILE%\.kaggle\` on Windows) and
    `chmod 600` it. Or export the credentials instead:
-   ```bash
+   ```cmd
    export KAGGLE_USERNAME=your_username
    export KAGGLE_KEY=your_api_key
    ```
 3. Run it:
-   ```bash
+   ```cmd
    python scripts/download_data.py
    ```
 
@@ -122,7 +122,7 @@ Grab the zip from the dataset page and unzip it into `data/intel/`. Then
 
 ### Option 3 — synthetic data, no account needed
 
-```bash
+```cmd
 python scripts/make_sample_data.py --dest data/sample --per-class 24
 python scripts/train.py --set data.root=data/sample train.epochs=2 data.num_workers=0
 ```
@@ -195,7 +195,7 @@ would be wrong for text or digits; keep that in mind if you point this at anothe
 
 Swapping requires no code changes:
 
-```bash
+```cmd
 python scripts/train.py --set model.name=efficientnet_b0
 ```
 
@@ -237,7 +237,7 @@ outputs/<run_name>/
 
 ### Evaluation
 
-```bash
+```cmd
 python scripts/evaluate.py                                    # latest run, test split
 python scripts/evaluate.py --checkpoint outputs/my-run/checkpoints/best.pt
 python scripts/evaluate.py --split val --save-errors
@@ -263,7 +263,7 @@ surface.
 
 ### Prediction
 
-```bash
+```cmd
 python scripts/predict.py photo.jpg                            # top-3 with bars
 python scripts/predict.py photo.jpg --gradcam cam.png          # + attention overlay
 python scripts/predict.py data/intel/seg_pred --csv out.csv    # a whole folder
@@ -291,7 +291,7 @@ photo.jpg
 
 ### Web demo
 
-```bash
+```cmd
 python app.py                      # http://localhost:7860
 python app.py --share              # temporary public link
 python app.py --port 8080 --no-gradcam --checkpoint outputs/my-run/checkpoints/best.pt
@@ -305,7 +305,7 @@ Drop a few JPEGs into `assets/samples/` and they appear as clickable examples.
 
 ### Notebook
 
-```bash
+```cmd
 jupyter notebook notebooks/walkthrough.ipynb
 ```
 
@@ -323,7 +323,7 @@ Set `DATA_ROOT`, `EPOCHS`, and `MODEL` in the second cell and run all.
 Everything lives in `configs/default.yaml`. Any key can be overridden from the command
 line without editing the file:
 
-```bash
+```cmd
 python scripts/train.py --set train.lr=0.0003 augment.color_jitter=0 data.val_split=0.2
 ```
 
