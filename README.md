@@ -11,7 +11,7 @@ A Computer Vision final capstone project comparing a **Custom 4-Stage Deep CNN**
 
 ## 🔗 Live Demo & Links
 - **Public Live Web App URL:** [https://early-weeks-grab.loca.lt](https://early-weeks-grab.loca.lt) *(Tunnel IP: `49.36.136.166`)*
-- **GitHub Repository:** [https://github.com/Natkros/Image-Classifier](https://github.com/Natkros/Image-Classifier)
+- **GitHub Repository:** [https://github.com/Natkros/Image-Classification](https://github.com/Natkros/Image-Classification)
 - **Local Web App:** Run locally via `python -m streamlit run app.py` at `http://localhost:8501`.
 
 ---
@@ -65,7 +65,7 @@ A Computer Vision final capstone project comparing a **Custom 4-Stage Deep CNN**
 
 ### 1. Installation
 ```bash
-git clone https://github.com/Natkros/Image-Classifier.git
+git clone https://github.com/Natkros/Image-Classification.git
 cd Image-Classifier
 pip install -r requirements.txt
 ```

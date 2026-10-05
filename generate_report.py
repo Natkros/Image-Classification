@@ -60,7 +60,7 @@ def build_pdf_report(output_path: str = "Project_Report.pdf"):
 
     meta = [
         [Paragraph("<b>Student Name:</b> Kritarth Saxena", p_s), Paragraph("<b>Domain:</b> Computer Vision / Deep Learning", p_s)],
-        [Paragraph("<b>GitHub:</b> github.com/Natkros/Image-Classifier", p_s), Paragraph("<b>Live URL:</b> early-weeks-grab.loca.lt", p_s)],
+        [Paragraph("<b>GitHub:</b> github.com/Natkros/Image-Classification", p_s), Paragraph("<b>Live URL:</b> early-weeks-grab.loca.lt", p_s)],
     ]
     t_meta = Table(meta, colWidths=[250, 254])
     t_meta.setStyle(TableStyle([

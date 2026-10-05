@@ -23,7 +23,7 @@ Please find attached my Final Capstone Project submission for the course.
 Project Details:
 - Student Name: Kritarth Saxena
 - Chosen Project: Real-World Image Classification (Cats vs Dogs)
-- GitHub Repository: https://github.com/Natkros/Image-Classifier
+- GitHub Repository: https://github.com/Natkros/Image-Classification
 - Live Web Application URL: https://early-weeks-grab.loca.lt (Tunnel IP: 49.36.136.166)
 - Tech Stack: PyTorch 2.12, Torchvision, Streamlit, Scikit-Learn
 
@@ -53,7 +53,7 @@ Thank you!
 
 Best regards,
 Kritarth Saxena
-GitHub: https://github.com/Natkros/Image-Classifier
+GitHub: https://github.com/Natkros/Image-Classification
 
 --------------------------------------------------------------------------------
 ATTACHMENTS TO INCLUDE IN YOUR EMAIL:
