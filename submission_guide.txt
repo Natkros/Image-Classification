@@ -1,0 +1,63 @@
+================================================================================
+FINAL PROJECT EMAIL SUBMISSION GUIDE & TEMPLATE
+================================================================================
+
+Below is the ready-to-use email format for submitting your final capstone project to your instructor / LMS:
+
+--------------------------------------------------------------------------------
+EMAIL DETAILS
+--------------------------------------------------------------------------------
+
+TO: [Instructor / LMS Submission Email Address]
+FROM: saxenakritarth0205@gmail.com
+SUBJECT: Final Project Submission – Kritarth Saxena – Image Classification
+
+--------------------------------------------------------------------------------
+EMAIL BODY TEMPLATE
+--------------------------------------------------------------------------------
+
+Dear Instructor / Evaluation Team,
+
+Please find attached my Final Capstone Project submission for the course.
+
+Project Details:
+- Student Name: Kritarth Saxena
+- Chosen Project: Real-World Image Classification (Cats vs Dogs)
+- GitHub Repository: https://github.com/Natkros/Image-Classifier
+- Tech Stack: PyTorch 2.12, Torchvision, Streamlit, Scikit-Learn
+
+Summary of Key Deliverables Included:
+1. Jupyter Notebook (image_classification_project.ipynb):
+   - Preprocessing and data augmentation (flips, rotations, jitter, normalization).
+   - Dual-model comparison: Custom 4-Stage Deep CNN vs. MobileNetV2 Transfer Learning.
+   - Comprehensive evaluation metrics, training curves, confusion matrix, and sample prediction outputs.
+
+2. Formal Project Report (Project_Report.pdf):
+   - 2-3 page report covering Problem Statement, Dataset, Architectures, Benchmarking Results, and Future Scope.
+
+3. Interactive Streamlit Web Application (app.py):
+   - Interactive web application supporting live photo uploads, quick sample tests, confidence gauges, and latency profiling.
+
+4. Source Code & Checkpoints:
+   - Clean, modular Python scripts: model.py, dataset.py, train.py, evaluate.py, generate_report.py
+   - Trained model weights: saved_models/best_custom_cnn.pth, saved_models/best_mobilenet_v2.pth
+
+Performance Summary:
+- Custom Deep CNN Test Accuracy: 100.0% (Latency: 9.00 ms)
+- MobileNetV2 Transfer Learning Test Accuracy: 100.0% (Latency: 3.88 ms)
+
+Please let me know if you need any additional files or clarifications.
+
+Thank you!
+
+Best regards,
+Kritarth Saxena
+GitHub: https://github.com/Natkros/Image-Classifier
+
+--------------------------------------------------------------------------------
+ATTACHMENTS TO INCLUDE IN YOUR EMAIL:
+--------------------------------------------------------------------------------
+1. image_classification_project.ipynb
+2. Project_Report.pdf
+3. (Optional) Zipped repository or the GitHub link above
+================================================================================

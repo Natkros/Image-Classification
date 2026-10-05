@@ -1,0 +1,20 @@
+{
+  "models": {
+    "custom_cnn": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "avg_latency_ms": 10.31,
+      "param_count": 3338082
+    },
+    "mobilenet_v2": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "avg_latency_ms": 4.74,
+      "param_count": 2552834
+    }
+  }
+}
