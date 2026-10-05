@@ -57,7 +57,7 @@ def build_executed_notebook(output_path: str = "image_classification_project.ipy
         md("## 8. Sample Predictions & Qualitative Review\nInspecting individual test predictions along with confidence percentages."),
         code("# Showing sample predictions\ndisplay(IPImage('visualizations/sample_predictions.png'))",
              b64_img=encode_b64("visualizations/sample_predictions.png")),
-        md("## 9. Conclusion & Deployment\n- **MobileNetV2** was 2.3x faster at inference (3.88 ms) and converged within 2 epochs.\n- **Custom CNN** performed with high accuracy and demonstrated the effectiveness of batch norm and spatial dropout.\n- **Deployment:** The model is deployed as a live interactive Streamlit application (`app.py`).")
+        md("## 9. Conclusion & Deployment\n- **MobileNetV2** was 2.3x faster at inference (3.88 ms) and converged within 2 epochs.\n- **Custom CNN** performed with high accuracy and demonstrated the effectiveness of batch norm and spatial dropout.\n- **Deployment:** The model is deployed as a live interactive Streamlit application (`app.py`).\n- **Live Web App URL:** [https://early-weeks-grab.loca.lt](https://early-weeks-grab.loca.lt) *(Tunnel IP: `49.36.136.166`)*\n- **GitHub Repository:** [https://github.com/Natkros/Image-Classifier](https://github.com/Natkros/Image-Classifier)")
     ]
 
     with open(output_path, "w", encoding="utf-8") as f:

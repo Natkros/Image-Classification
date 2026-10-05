@@ -10,8 +10,9 @@ A Computer Vision final capstone project comparing a **Custom 4-Stage Deep CNN**
 ---
 
 ## 🔗 Live Demo & Links
+- **Public Live Web App URL:** [https://early-weeks-grab.loca.lt](https://early-weeks-grab.loca.lt) *(Tunnel IP: `49.36.136.166`)*
 - **GitHub Repository:** [https://github.com/Natkros/Image-Classifier](https://github.com/Natkros/Image-Classifier)
-- **Streamlit Web App:** Run locally via `streamlit run app.py` or deploy via [Streamlit Community Cloud](https://share.streamlit.io).
+- **Local Web App:** Run locally via `python -m streamlit run app.py` at `http://localhost:8501`.
 
 ---
 

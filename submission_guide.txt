@@ -24,6 +24,7 @@ Project Details:
 - Student Name: Kritarth Saxena
 - Chosen Project: Real-World Image Classification (Cats vs Dogs)
 - GitHub Repository: https://github.com/Natkros/Image-Classifier
+- Live Web Application URL: https://early-weeks-grab.loca.lt (Tunnel IP: 49.36.136.166)
 - Tech Stack: PyTorch 2.12, Torchvision, Streamlit, Scikit-Learn
 
 Summary of Key Deliverables Included:

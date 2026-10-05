@@ -3,6 +3,7 @@
 **Student Name:** Kritarth Saxena  
 **Course:** Deep Learning / Computer Vision Capstone  
 **GitHub Repository:** [Natkros/Image-Classifier](https://github.com/Natkros/Image-Classifier)  
+**Live Web Application URL:** [https://early-weeks-grab.loca.lt](https://early-weeks-grab.loca.lt) (Tunnel IP: `49.36.136.166`)  
 **Date:** October 2026  
 
 ---
