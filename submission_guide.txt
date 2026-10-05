@@ -22,10 +22,10 @@ Please find attached my Final Capstone Project submission for the course.
 
 Project Details:
 - Student Name: Kritarth Saxena
-- Chosen Project: Real-World Image Classification (Cats vs Dogs)
+- Chosen Project: Real-World Image Classification (Cats vs Dogs, real CIFAR-10 photos)
 - GitHub Repository: https://github.com/Natkros/Image-Classification
 - Live Web Application URL: https://early-weeks-grab.loca.lt (Tunnel IP: 49.36.136.166)
-- Tech Stack: PyTorch 2.12, Torchvision, Streamlit, Scikit-Learn
+- Tech Stack: PyTorch 2.12, Torchvision, Streamlit, Scikit-Learn, Grad-CAM
 
 Summary of Key Deliverables Included:
 1. Jupyter Notebook (image_classification_project.ipynb):
@@ -37,15 +37,15 @@ Summary of Key Deliverables Included:
    - 2-3 page report covering Problem Statement, Dataset, Architectures, Benchmarking Results, and Future Scope.
 
 3. Interactive Streamlit Web Application (app.py):
-   - Interactive web application supporting live photo uploads, quick sample tests, confidence gauges, and latency profiling.
+   - Interactive web application supporting live photo uploads, quick sample tests, side-by-side model verdicts, Grad-CAM heat maps, and latency.
 
 4. Source Code & Checkpoints:
-   - Clean, modular Python scripts: model.py, dataset.py, train.py, evaluate.py, generate_report.py
+   - Clean, modular Python scripts: model.py, dataset.py, train.py, evaluate.py, gradcam.py, generate_report.py
    - Trained model weights: saved_models/best_custom_cnn.pth, saved_models/best_mobilenet_v2.pth
 
 Performance Summary:
-- Custom Deep CNN Test Accuracy: 100.0% (Latency: 9.00 ms)
-- MobileNetV2 Transfer Learning Test Accuracy: 100.0% (Latency: 3.88 ms)
+- Custom CNN Test Accuracy: 85.7% (Latency: 6.4 ms)
+- MobileNetV2 Transfer Learning Test Accuracy: 90.0% (Latency: 15.4 ms)
 
 Please let me know if you need any additional files or clarifications.
 

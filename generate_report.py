@@ -1,114 +1,57 @@
-"""
-Final Project: Image Classification - PDF Report Generator
-Author: Kritarth Saxena
-GitHub: @Natkros
-"""
+"""Builds Project_Report.pdf from the real numbers in saved_models/evaluation_summary.json."""
 import json
-import os
+
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import inch
-from reportlab.pdfgen import canvas
-from reportlab.platypus import HRFlowable, Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
+from model import MODELS
+
+BLUE = colors.HexColor("#1e3c72")
+H1 = ParagraphStyle("h1", fontName="Helvetica-Bold", fontSize=13, textColor=BLUE, spaceBefore=10, spaceAfter=4)
+BODY = ParagraphStyle("body", fontName="Helvetica", fontSize=9.5, leading=13, spaceAfter=4)
 
 
-class NumberedCanvas(canvas.Canvas):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._states = []
-
-    def showPage(self):
-        self._states.append(dict(self.__dict__))
-        self._startPage()
-
-    def save(self):
-        for s in self._states:
-            self.__dict__.update(s)
-            self.saveState()
-            self.setFont("Helvetica", 8)
-            self.setFillColor(colors.HexColor("#64748b"))
-            if self._pageNumber > 1:
-                self.drawString(54, 750, "Final Project: Image Classification with Deep Learning")
-                self.drawRightString(letter[0] - 54, 750, "Kritarth Saxena | Capstone Report")
-                self.line(54, 742, letter[0] - 54, 742)
-            self.line(54, 45, letter[0] - 54, 45)
-            self.drawString(54, 32, "Computer Vision Final Project Submission")
-            self.drawRightString(letter[0] - 54, 32, f"Page {self._pageNumber} of {len(self._states)}")
-            self.restoreState()
-            super().showPage()
-        super().save()
-
-
-def build_pdf_report(output_path: str = "Project_Report.pdf"):
-    doc = SimpleDocTemplate(output_path, pagesize=letter, leftMargin=54, rightMargin=54, topMargin=54, bottomMargin=54)
-    styles = getSampleStyleSheet()
-    c_primary = colors.HexColor("#1e3c72")
-    c_dark = colors.HexColor("#1e293b")
-
-    title_s = ParagraphStyle("T", parent=styles["Normal"], fontName="Helvetica-Bold", fontSize=18, leading=22, textColor=c_primary)
-    sub_s = ParagraphStyle("Sub", parent=styles["Normal"], fontName="Helvetica", fontSize=10, leading=14, textColor=colors.HexColor("#2a5298"))
-    h1_s = ParagraphStyle("H1", parent=styles["Normal"], fontName="Helvetica-Bold", fontSize=12, leading=15, textColor=c_primary, spaceBefore=8, spaceAfter=4)
-    h2_s = ParagraphStyle("H2", parent=styles["Normal"], fontName="Helvetica-Bold", fontSize=10, leading=13, textColor=c_primary, spaceBefore=5, spaceAfter=3)
-    p_s = ParagraphStyle("P", parent=styles["Normal"], fontName="Helvetica", fontSize=8.5, leading=11.5, textColor=c_dark, spaceAfter=4)
+def build(path: str = "Project_Report.pdf"):
+    res = json.load(open("saved_models/evaluation_summary.json"))
+    cnn, mob = res["custom_cnn"], res["mobilenet_v2"]
+    rows = [["Model", "Accuracy", "F1", "Latency", "Parameters", "Train time"]] + [
+        [MODELS[n], f"{r['accuracy']:.2f}%", f"{r['f1_score']:.2f}%", f"{r['latency_ms']:.1f} ms", f"{r['params']:,}", f"{r['train_seconds']} s"]
+        for n, r in res.items()]
+    table = Table(rows, hAlign="LEFT")
+    table.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#dbeafe")), ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+                               ("FONTSIZE", (0, 0), (-1, -1), 9), ("GRID", (0, 0), (-1, -1), .5, colors.HexColor("#94a3b8")), ("PADDING", (0, 0), (-1, -1), 5)]))
+    fig = lambda f, h: Image(f"visualizations/{f}.png", width=6.8 * inch, height=h * inch)
 
     story = [
-        Paragraph("IMAGE CLASSIFICATION: CUSTOM CNN vs. TRANSFER LEARNING", title_s),
-        Paragraph("Final Capstone Project Report | Model Architecture, Training & Deployment", sub_s),
-        HRFlowable(width="100%", thickness=1.5, color=c_primary, spaceBefore=4, spaceAfter=6)
+        Paragraph("PetVision: Cat vs Dog Image Classification", ParagraphStyle("t", fontName="Helvetica-Bold", fontSize=20, textColor=BLUE, spaceAfter=2)),
+        Paragraph("Final capstone report · Kritarth Saxena · github.com/Natkros/Image-Classification", BODY),
+        Paragraph("1. Problem", H1),
+        Paragraph("Classify photos as cat or dog, and find out whether a CNN designed from scratch can match a fine-tuned pretrained network "
+                  "once accuracy, inference speed and model size are all taken into account.", BODY),
+        Paragraph("2. Data", H1),
+        Paragraph("The cat and dog classes of CIFAR-10 (real photographs): 9,000 images for training, 1,000 for validation and the 2,000 official test images, "
+                  "which were never used for tuning. Images are upscaled to 96×96 and augmented with flips, small rotations and shifts and colour jitter.", BODY),
+        Paragraph("3. Models", H1),
+        Paragraph(f"<b>Custom CNN</b> ({cnn['params']:,} parameters): four double-convolution blocks (32→256 channels) with BatchNorm, max-pooling and spatial dropout, "
+                  f"then a small dense head. <b>MobileNetV2</b> ({mob['params']:,} parameters): ImageNet weights with a new 2-class head, fine-tuned end to end. "
+                  "Both train with AdamW and cosine learning-rate decay, keeping the checkpoint with the best validation accuracy.", BODY),
+        Paragraph("4. Results", H1), table, Spacer(1, 6), fig("model_comparison", 1.7), fig("training_curves", 2.5),
+        Paragraph("5. Interpretation", H1),
+        Paragraph(f"MobileNetV2 reaches {mob['accuracy']:.1f}% against {cnn['accuracy']:.1f}% for the scratch CNN, trains in {mob['train_seconds']} s versus {cnn['train_seconds']} s, "
+                  f"and classifies an image in {mob['latency_ms']:.1f} ms versus {cnn['latency_ms']:.1f} ms. Pretrained features matter most when data is limited. "
+                  "Grad-CAM maps (below) show both networks focusing on the animal's head and body rather than the background. "
+                  "The remaining errors are mostly look-alikes at 32×32 resolution.", BODY),
+        fig("gradcam_examples", 2.9), fig("confusion_matrix", 2.9),
+        Paragraph("6. Deployment & future work", H1),
+        Paragraph("The Streamlit app (<font face='Courier'>app.py</font>) classifies uploads with both models side by side and overlays Grad-CAM. "
+                  "Next steps: train on full-resolution photos (e.g. Oxford-IIIT Pets), export to ONNX, and try a Vision Transformer.", BODY),
     ]
-
-    meta = [
-        [Paragraph("<b>Student Name:</b> Kritarth Saxena", p_s), Paragraph("<b>Domain:</b> Computer Vision / Deep Learning", p_s)],
-        [Paragraph("<b>GitHub:</b> github.com/Natkros/Image-Classification", p_s), Paragraph("<b>Live URL:</b> early-weeks-grab.loca.lt", p_s)],
-    ]
-    t_meta = Table(meta, colWidths=[250, 254])
-    t_meta.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#f8fafc")),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#e2e8f0")),
-        ('PADDING', (0,0), (-1,-1), 4)
-    ]))
-    story.extend([t_meta, Spacer(1, 6)])
-
-    story.extend([
-        Paragraph("1. Problem Statement & Motivation", h1_s),
-        Paragraph("In this project, I developed an end-to-end image classifier capable of distinguishing between real-world visual categories (Cats vs Dogs). I wanted to explore whether designing a customized CNN from scratch could match the performance and efficiency of a fine-tuned transfer learning backbone (MobileNetV2), while evaluating both on accuracy, inference speed, and deployment practicality.", p_s),
-
-        Paragraph("2. Dataset & Preprocessing Pipeline", h1_s),
-        Paragraph("The dataset was divided into 70% training, 15% validation, and 15% testing splits. Input images were resized to 128x128 pixels. To avoid overfitting on the training set, I added random horizontal flips, random rotations up to 15 degrees, color jitter (brightness and contrast), and normalized all pixel values with ImageNet mean and standard deviation.", p_s),
-
-        Paragraph("3. Model Architectures & Training", h1_s),
-        Paragraph("<b>Custom 4-Stage CNN:</b> Built from scratch using 4 sequential double-convolution blocks (32 -> 64 -> 128 -> 256 channels). Each block uses 3x3 kernels, Batch Normalization, ReLU activations, 2x2 Max Pooling, and spatial dropout (0.1 to 0.25). The classification head uses two dense layers with dropout and batch norm (3.34M parameters).<br/><b>MobileNetV2 Transfer Learning:</b> Replaced the default 1000-class head with a custom linear layer and fine-tuned using AdamW and Cosine Annealing learning rate scheduling (2.55M parameters).", p_s),
-
-        Paragraph("4. Experimental Results & Benchmarks", h1_s)
-    ])
-
-    bench = [
-        [Paragraph("<b>Model Architecture</b>", p_s), Paragraph("<b>Test Accuracy</b>", p_s), Paragraph("<b>F1-Score</b>", p_s), Paragraph("<b>Parameters</b>", p_s), Paragraph("<b>Inference Latency</b>", p_s)],
-        [Paragraph("<b>Custom Deep CNN</b>", p_s), Paragraph("100.0%", p_s), Paragraph("100.0%", p_s), Paragraph("3,338,082", p_s), Paragraph("9.00 ms", p_s)],
-        [Paragraph("<b>MobileNetV2 (Transfer)</b>", p_s), Paragraph("100.0%", p_s), Paragraph("100.0%", p_s), Paragraph("2,552,834", p_s), Paragraph("3.88 ms", p_s)],
-    ]
-    t_bench = Table(bench, colWidths=[150, 80, 84, 95, 95])
-    t_bench.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#dbeafe")),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#94a3b8")),
-        ('PADDING', (0,0), (-1,-1), 3)
-    ]))
-    story.extend([t_bench, Spacer(1, 6)])
-
-    if os.path.exists("visualizations/training_curves.png"):
-        story.extend([Paragraph("<b>Figure 1: Training & Validation Loss/Accuracy Curves</b>", h2_s), Image("visualizations/training_curves.png", width=6.8 * inch, height=2.2 * inch)])
-    if os.path.exists("visualizations/confusion_matrix.png"):
-        story.extend([Paragraph("<b>Figure 2: Confusion Matrix Comparison</b>", h2_s), Image("visualizations/confusion_matrix.png", width=6.8 * inch, height=2.1 * inch)])
-
-    story.extend([
-        Paragraph("5. Discussion & Deployment", h1_s),
-        Paragraph("<b>Key Findings:</b> MobileNetV2 achieved 2.3x faster inference speed (3.88 ms per image on CPU) and converged within 2 epochs due to pre-existing visual representations. The custom CNN also converged cleanly without overfitting thanks to batch normalization and spatial dropout.<br/><b>Web Application:</b> Built and tested a Streamlit web app (<code>app.py</code>) enabling real-time photo uploads, sample testing, and confidence tracking.<br/><b>Future Work:</b> Testing Vision Transformers (ViT) and adding Grad-CAM heatmaps to inspect activation regions.", p_s)
-    ])
-
-    doc.build(story, canvasmaker=NumberedCanvas)
-    print(f"[OK] Report generated: '{output_path}'")
+    SimpleDocTemplate(path, pagesize=letter, leftMargin=54, rightMargin=54, topMargin=48, bottomMargin=48).build(story)
+    print(f"Report written to {path}")
 
 
 if __name__ == "__main__":
-    build_pdf_report()
+    build()
